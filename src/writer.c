@@ -490,6 +490,7 @@ static void InitTextStyle(void)
     textStyle.bold = 0;
     textStyle.italic = 0;
     textStyle.underlined = 0;
+    textStyle.strike = 0;
     textStyle.dbUnderlined = 0;
     textStyle.smallCaps = 0;
     textStyle.subScript = 0;
@@ -535,6 +536,8 @@ static int SameTextStyle(void)
     if (textStyleWritten.underlined != textStyle.underlined) return false;
 
     if (textStyleWritten.smallCaps != textStyle.smallCaps) return false;
+
+    if (textStyleWritten.strike != textStyle.strike) return false;
 
     if (textStyleWritten.dbUnderlined != textStyle.dbUnderlined) return false;
 
@@ -590,6 +593,11 @@ static void StopTextStyle(void)
     if (textStyleWritten.underlined) {
         PutLitStr("}");
         textStyleWritten.underlined=false;
+    }
+    
+    if (textStyleWritten.strike) {
+        PutLitStr("}");
+        textStyleWritten.strike=false;
     }
 
     if (textStyleWritten.dbUnderlined) {
@@ -690,6 +698,13 @@ static void WriteTextStyle(void)
         textStyleWritten.smallCaps=textStyle.smallCaps;
     }
 
+    if (textStyleWritten.strike != textStyle.strike && !insideEquation) {
+        if (textStyle.strike)
+            PutLitStr("\\sout{");
+        requireUlemPackage = true;
+        textStyleWritten.strike=textStyle.strike;
+    }
+
     if (textStyleWritten.dbUnderlined != textStyle.dbUnderlined && !insideEquation) {
         if (textStyle.dbUnderlined)
             PutLitStr("\\uuline{");
@@ -769,6 +784,9 @@ static void SetTextStyle(void)
         break;
     case rtfBold:
         textStyle.bold = (rtfParam) ? true : false;
+        break;
+    case rtfStrikeThru:
+        textStyle.strike = (rtfParam) ? true : false;
         break;
     case rtfUnderline:
         textStyle.underlined = (rtfParam) ? true : false;

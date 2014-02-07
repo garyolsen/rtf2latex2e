@@ -95,6 +95,7 @@ typedef struct
     int italic;
     int underlined;
     int dbUnderlined;
+    int strike;
     int shadowed;
     int allCaps;
     int smallCaps;

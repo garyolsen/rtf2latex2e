@@ -21,3 +21,6 @@
 *.i*86
 *.x86_64
 *.hex
+
+/rtf2latex
+/rtf2latex2e
