@@ -803,6 +803,10 @@ static void SetTextStyle(void)
         else
             textStyle.foreColor = rtfParam;
         break;
+    case rtfNoSuperSub:
+        textStyle.subScript = false;
+        textStyle.superScript = false;
+        break;
     case rtfSubScrShrink:
     case rtfSubScript:
         textStyle.subScript = (rtfParam) ? true : false;
